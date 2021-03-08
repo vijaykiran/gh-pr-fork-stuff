@@ -1,0 +1,25 @@
+name: test-build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    env:
+      SUPER_SECRET: ${{ secrets.SUPER_SECRET_THINGY }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        run: |
+          if [ -z "$SUPER_SECRET" ]
+          then
+             echo "Secret not found"
+             exit 1
+          else
+             echo "Secret found!"
+             exit 0
+          fi
