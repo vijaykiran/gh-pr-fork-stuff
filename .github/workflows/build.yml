@@ -3,13 +3,17 @@ name: test-build
 on:
   push:
   pull_request:
+  pull_request_target:
+    types: [labeled]
 
 jobs:
   build:
+    name: Test Secret Access
+    runs-on: ubuntu-latest
+    if: contains(github.event.pull_request.labels.*.name, 'sure-test-it')
+
     env:
       SUPER_SECRET: ${{ secrets.SUPER_SECRET_THINGY }}
-
-    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
